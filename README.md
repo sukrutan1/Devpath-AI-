@@ -50,8 +50,7 @@ ML Internship Project/
 ├── readme banner/              # Banner assets for GitHub README
 ├── stitch_devcareer_navigator/ # UI Mockups and wireframes
 ├── train_model.py              # ML model training pipeline
-├── yazilim_kariyer_rehberi_final_1.ipynb  # Data exploration & Jupyter Notebook
-└── render.yaml                 # Deployment configuration for Render
+└── yazilim_kariyer_rehberi_final_1.ipynb  # Data exploration & Jupyter Notebook
 ```
 
 ## 🚀 Installation & Setup
@@ -110,12 +109,6 @@ cd client
 npm run dev
 ```
 The Vite development server will start at `http://localhost:5173` and automatically proxy API requests to your FastAPI backend.
-
-## ☁️ Deployment
-This project is configured for seamless deployment on **Render**:
-1. Push the repository to GitHub.
-2. Create a new Web Service on Render and connect your repository.
-3. Render will automatically read the `render.yaml` file, install dependencies, build the frontend, and spin up the server.
 
 ---
 *Developed as part of the Software Persona ML Internship Project.*
