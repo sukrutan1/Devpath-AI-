@@ -1,0 +1,41 @@
+{
+  "ozellik_sirasi": [
+    "WorkExp",
+    "DevType",
+    "Country",
+    "EdLevel",
+    "RemoteWork",
+    "OrgSize",
+    "Industry",
+    "Employment",
+    "Age",
+    "ICorPM",
+    "AISelect",
+    "DilSayisi"
+  ],
+  "kategorik_sutunlar": [
+    "DevType",
+    "Country",
+    "EdLevel",
+    "RemoteWork",
+    "OrgSize",
+    "Industry",
+    "Employment",
+    "Age",
+    "ICorPM",
+    "AISelect"
+  ],
+  "sayisal_sutunlar": [
+    "WorkExp",
+    "DilSayisi"
+  ],
+  "hedef_degisken": "MonthlySalaryUSD (USD)",
+  "usd_to_try_sabit_kur": 40,
+  "test_r2": 0.579,
+  "test_mae": 2544.13,
+  "best_params": {
+    "regressor__learning_rate": 0.1,
+    "regressor__max_depth": 5,
+    "regressor__n_estimators": 300
+  }
+}

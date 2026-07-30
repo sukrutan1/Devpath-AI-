@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>DevPath AI - Salary Prediction</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-tertiary-fixed": "#001f26",
+                        "inverse-primary": "#6d3bd7",
+                        "surface-dim": "#15121b",
+                        "on-tertiary": "#003640",
+                        "surface-variant": "#37333d",
+                        "surface-bright": "#3b3742",
+                        "surface": "#15121b",
+                        "secondary-fixed-dim": "#adc6ff",
+                        "inverse-surface": "#e7e0ed",
+                        "on-tertiary-fixed-variant": "#004e5c",
+                        "on-tertiary-container": "#002f38",
+                        "primary": "#d0bcff",
+                        "tertiary-container": "#009eb9",
+                        "secondary-fixed": "#d8e2ff",
+                        "error-container": "#93000a",
+                        "primary-fixed": "#e9ddff",
+                        "on-surface": "#e7e0ed",
+                        "secondary-container": "#0566d9",
+                        "outline-variant": "#494454",
+                        "surface-container-lowest": "#0f0d15",
+                        "secondary": "#adc6ff",
+                        "on-error": "#690005",
+                        "tertiary-fixed-dim": "#4cd7f6",
+                        "outline": "#958ea0",
+                        "on-secondary-fixed": "#001a42",
+                        "on-secondary-container": "#e6ecff",
+                        "surface-container-low": "#1d1a23",
+                        "on-primary": "#3c0091",
+                        "background": "#15121b",
+                        "surface-container-high": "#2c2832",
+                        "on-error-container": "#ffdad6",
+                        "tertiary-fixed": "#acedff",
+                        "surface-container-highest": "#37333d",
+                        "inverse-on-surface": "#322f39",
+                        "on-secondary-fixed-variant": "#004395",
+                        "surface-container": "#211e27",
+                        "on-secondary": "#002e6a",
+                        "primary-container": "#a078ff",
+                        "on-background": "#e7e0ed",
+                        "on-primary-container": "#340080",
+                        "on-primary-fixed-variant": "#5516be",
+                        "surface-tint": "#d0bcff",
+                        "primary-fixed-dim": "#d0bcff",
+                        "on-primary-fixed": "#23005c",
+                        "tertiary": "#4cd7f6",
+                        "error": "#ffb4ab",
+                        "on-surface-variant": "#cbc3d7"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    spacing: {
+                        "lg": "48px",
+                        "container-max": "1280px",
+                        "md": "24px",
+                        "xs": "8px",
+                        "xl": "80px",
+                        "gutter": "24px",
+                        "sm": "16px",
+                        "base": "4px"
+                    },
+                    fontFamily: {
+                        "label-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "display-lg-mobile": ["Plus Jakarta Sans"],
+                        "label-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-md": ["Plus Jakarta Sans"]
+                    },
+                    fontSize: {
+                        "label-sm": ["12px", { lineHeight: "1.4", fontWeight: "500" }],
+                        "body-md": ["16px", { lineHeight: "1.6", fontWeight: "400" }],
+                        "headline-lg": ["32px", { lineHeight: "1.2", fontWeight: "700" }],
+                        "display-lg": ["48px", { lineHeight: "1.1", letterSpacing: "-0.02em", fontWeight: "800" }],
+                        "display-lg-mobile": ["32px", { lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "800" }],
+                        "label-md": ["14px", { lineHeight: "1.4", letterSpacing: "0.01em", fontWeight: "600" }],
+                        "body-lg": ["18px", { lineHeight: "1.6", fontWeight: "400" }],
+                        "headline-md": ["24px", { lineHeight: "1.3", fontWeight: "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #0f172a;
+            color: #e7e0ed;
+        }
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .glow-shadow {
+            box-shadow: 0 0 20px rgba(208, 188, 255, 0.3);
+        }
+        .glow-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: -1;
+            opacity: 0.1;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        /* Custom Input Styles */
+        input[type="text"], input[type="number"], select {
+            background-color: #1e293b;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #e7e0ed;
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+            width: 100%;
+            transition: all 0.2s ease;
+        }
+        input[type="text"]:focus, input[type="number"]:focus, select:focus {
+            outline: none;
+            border-color: #d0bcff;
+            box-shadow: 0 0 10px rgba(208, 188, 255, 0.2);
+        }
+        select option {
+            background-color: #1e293b;
+            color: #e7e0ed;
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col relative overflow-x-hidden">
+<!-- Decorative Glow Orbs -->
+<div class="glow-orb bg-primary w-[600px] h-[600px] top-[-200px] left-[-200px]"></div>
+<div class="glow-orb bg-secondary w-[500px] h-[500px] bottom-[-100px] right-[-100px] opacity-[0.05]"></div>
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-surface/60 backdrop-blur-xl border-b border-white/10 shadow-[0_0_20px_rgba(208,188,255,0.1)]">
+<div class="flex items-center justify-between px-md py-xs max-w-container-max mx-auto h-[72px]">
+<!-- Brand -->
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-primary text-3xl" style="font-variation-settings: 'FILL' 1;">terminal</span>
+<span class="font-headline-md text-headline-md font-bold text-primary tracking-tight">DevPath</span>
+</div>
+<!-- Nav Links (Desktop) -->
+<div class="hidden md:flex items-center gap-lg">
+<a class="font-label-md text-label-md text-primary border-b-2 border-primary pb-1" href="#">Salary Prediction</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-white/5 transition-all duration-300 px-3 py-2 rounded-md" href="#">Area Finder</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-white/5 transition-all duration-300 px-3 py-2 rounded-md" href="#">Learning Paths</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-white/5 transition-all duration-300 px-3 py-2 rounded-md" href="#">Mentors</a>
+</div>
+<!-- Actions -->
+<div class="flex items-center gap-sm">
+<button class="text-on-surface-variant hover:text-primary transition-colors p-2 rounded-full hover:bg-white/5 hidden md:block">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors p-2 rounded-full hover:bg-white/5 hidden md:block">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+<button class="bg-gradient-to-r from-primary to-secondary text-on-primary-fixed font-label-md text-label-md px-6 py-2 rounded-lg hover:shadow-[0_0_15px_rgba(208,188,255,0.4)] transition-all active:scale-95 font-semibold">
+                    Sign Up
+                </button>
+</div>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="flex-grow pt-[120px] pb-xl px-sm md:px-md max-w-container-max mx-auto w-full">
+<!-- Header -->
+<div class="mb-lg text-center md:text-left">
+<h1 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-on-surface mb-xs">
+                Predict Your <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-tertiary">Market Value</span>
+</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">
+                Leverage our AI model to estimate your optimal salary based on current tech market trends, your skills, and location.
+            </p>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-lg items-start">
+<!-- Form Column -->
+<div class="lg:col-span-8 space-y-md">
+<div class="glass-panel rounded-xl p-md md:p-lg">
+<form>
+<!-- Section: Personal Info -->
+<div class="mb-lg">
+<h2 class="font-headline-md text-headline-md text-on-surface border-b border-white/10 pb-xs mb-md flex items-center gap-xs">
+<span class="material-symbols-outlined text-primary">person</span>
+                                Personal Details
+                            </h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-base">Years of Experience</label>
+<input class="font-body-md text-body-md" max="50" min="0" placeholder="e.g. 3" type="number"/>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-base">Highest Education</label>
+<select class="font-body-md text-body-md appearance-none">
+<option disabled="" selected="" value="">Select Education Level</option>
+<option>High School</option>
+<option>Bachelor's Degree</option>
+<option>Master's Degree</option>
+<option>Ph.D.</option>
+<option>Bootcamp/Self-Taught</option>
+</select>
+</div>
+</div>
+</div>
+<!-- Section: Job Info -->
+<div class="mb-lg">
+<h2 class="font-headline-md text-headline-md text-on-surface border-b border-white/10 pb-xs mb-md flex items-center gap-xs">
+<span class="material-symbols-outlined text-secondary">work</span>
+                                Role Details
+                            </h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+<div class="md:col-span-2">
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-base">Primary Role</label>
+<select class="font-body-md text-body-md appearance-none">
+<option disabled="" selected="" value="">Select your role</option>
+<option>Frontend Developer</option>
+<option>Backend Developer</option>
+<option>Fullstack Developer</option>
+<option>Data Scientist</option>
+<option>DevOps Engineer</option>
+<option>UI/UX Designer</option>
+</select>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-base">Country</label>
+<select class="font-body-md text-body-md appearance-none">
+<option disabled="" selected="" value="">Select Country</option>
+<option>United States</option>
+<option>United Kingdom</option>
+<option>Germany</option>
+<option>Canada</option>
+<option>Turkey</option>
+<option>India</option>
+</select>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-base">Work Arrangement</label>
+<select class="font-body-md text-body-md appearance-none">
+<option disabled="" selected="" value="">Select Mode</option>
+<option>Fully Remote</option>
+<option>Hybrid</option>
+<option>On-site</option>
+</select>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-base">Company Size</label>
+<select class="font-body-md text-body-md appearance-none">
+<option disabled="" selected="" value="">Select Size</option>
+<option>Startup (1-50)</option>
+<option>Mid-Size (51-500)</option>
+<option>Enterprise (500+)</option>
+</select>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-base">Current Level</label>
+<select class="font-body-md text-body-md appearance-none">
+<option disabled="" selected="" value="">Select Level</option>
+<option>Junior / Entry Level</option>
+<option>Mid-Level</option>
+<option>Senior</option>
+<option>Lead / Staff</option>
+</select>
+</div>
+</div>
+</div>
+<!-- Section: Skills -->
+<div class="mb-xl">
+<h2 class="font-headline-md text-headline-md text-on-surface border-b border-white/10 pb-xs mb-md flex items-center gap-xs">
+<span class="material-symbols-outlined text-tertiary">code</span>
+                                Technical Arsenal
+                            </h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-base">Primary Language</label>
+<select class="font-body-md text-body-md appearance-none">
+<option disabled="" selected="" value="">Select Language</option>
+<option>JavaScript/TypeScript</option>
+<option>Python</option>
+<option>Java</option>
+<option>C# / .NET</option>
+<option>Go</option>
+<option>Rust</option>
+</select>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-base">Cloud / Infrastructure</label>
+<select class="font-body-md text-body-md appearance-none">
+<option disabled="" selected="" value="">Select Cloud</option>
+<option>AWS</option>
+<option>Google Cloud (GCP)</option>
+<option>Azure</option>
+<option>None</option>
+</select>
+</div>
+<div class="md:col-span-2">
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-base">Secondary Skills (Optional)</label>
+<input class="font-body-md text-body-md" placeholder="e.g. React, Docker, Kubernetes, GraphQL" type="text"/>
+<p class="font-label-sm text-label-sm text-outline-variant mt-1">Comma separated</p>
+</div>
+</div>
+</div>
+<!-- Submit -->
+<div class="flex justify-end border-t border-white/10 pt-md">
+<button class="w-full md:w-auto bg-gradient-to-r from-primary to-inverse-primary text-white font-label-md text-label-md px-xl py-3 rounded-lg hover:shadow-[0_0_20px_rgba(208,188,255,0.4)] transition-all active:scale-95 font-bold flex items-center justify-center gap-xs" type="button">
+<span class="material-symbols-outlined">analytics</span>
+                                Calculate Prediction
+                            </button>
+</div>
+</form>
+</div>
+</div>
+<!-- Results Column -->
+<div class="lg:col-span-4 relative">
+<!-- Sticky wrapper for desktop -->
+<div class="sticky top-[100px]">
+<!-- Prediction Result Card -->
+<div class="glass-panel rounded-xl p-md overflow-hidden relative border border-primary/30">
+<!-- Card background effects -->
+<div class="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent z-0"></div>
+<div class="absolute top-0 right-0 w-32 h-32 bg-primary/20 blur-3xl rounded-full z-0"></div>
+<div class="relative z-10 flex flex-col items-center text-center">
+<div class="w-12 h-12 rounded-full bg-primary-container/20 flex items-center justify-center mb-sm border border-primary/30">
+<span class="material-symbols-outlined text-primary">monitoring</span>
+</div>
+<h3 class="font-label-md text-label-md text-primary uppercase tracking-wider mb-sm">Estimated Valuation</h3>
+<!-- Primary Metric -->
+<div class="mb-lg w-full">
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-1">Monthly (USD)</p>
+<div class="font-display-lg text-display-lg text-on-surface font-extrabold flex items-baseline justify-center">
+<span class="text-3xl text-primary/70 mr-1">$</span>8,450
+                                </div>
+<div class="w-full bg-surface-container-high h-2 rounded-full mt-sm overflow-hidden">
+<div class="h-full bg-gradient-to-r from-primary to-tertiary w-[75%] rounded-full"></div>
+</div>
+<div class="flex justify-between font-label-sm text-label-sm text-outline mt-1">
+<span>$6.5K</span>
+<span>Top 25%</span>
+</div>
+</div>
+<!-- Secondary Metrics -->
+<div class="grid grid-cols-2 gap-sm w-full border-t border-white/10 pt-md">
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-1">Annual (USD)</p>
+<p class="font-headline-md text-headline-md text-secondary font-bold">$101k</p>
+</div>
+<div class="border-l border-white/10 pl-sm">
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-1">Monthly (TRY)</p>
+<p class="font-headline-md text-headline-md text-tertiary font-bold">₺270k</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Market Insights Mini Card -->
+<div class="glass-panel rounded-xl p-md mt-md">
+<h4 class="font-label-md text-label-md text-on-surface mb-sm flex items-center gap-xs">
+<span class="material-symbols-outlined text-secondary text-sm">lightbulb</span>
+                            Market Insight
+                        </h4>
+<p class="font-label-sm text-label-sm text-on-surface-variant leading-relaxed">
+                            Fullstack developers with React and AWS skills in the US remote market have seen a <span class="text-tertiary font-bold">+12%</span> salary increase over the last two quarters.
+                        </p>
+<div class="flex flex-wrap gap-2 mt-md">
+<span class="bg-tertiary-container/10 text-tertiary border border-tertiary/20 px-2 py-1 rounded-full font-label-sm text-label-sm">High Demand</span>
+<span class="bg-primary-container/10 text-primary border border-primary/20 px-2 py-1 rounded-full font-label-sm text-label-sm">Remote Advantage</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full mt-xl bg-surface-container-lowest border-t border-white/5 shadow-none">
+<div class="flex flex-col md:flex-row justify-between items-center px-lg py-md max-w-container-max mx-auto">
+<div class="flex flex-col items-center md:items-start mb-md md:mb-0">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface mb-xs">DevPath AI</span>
+<p class="font-label-sm text-label-sm text-tertiary">© 2024 DevPath AI. Built for the next generation of engineers.</p>
+</div>
+<div class="flex flex-wrap justify-center gap-md">
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-tertiary-fixed transition-colors opacity-80 hover:opacity-100" href="#">Github</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-tertiary-fixed transition-colors opacity-80 hover:opacity-100" href="#">Documentation</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-tertiary-fixed transition-colors opacity-80 hover:opacity-100" href="#">Privacy Policy</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-tertiary-fixed transition-colors opacity-80 hover:opacity-100" href="#">Terms of Service</a>
+</div>
+</div>
+</footer>
+</body></html>

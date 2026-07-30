@@ -1,0 +1,24 @@
+# Dependencies
+node_modules/
+client/dist/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.env
+venv/
+env/
+.venv/
+
+# Dataset (too large for git)
+survey csv/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
