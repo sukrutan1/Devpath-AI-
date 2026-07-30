@@ -3,6 +3,11 @@
 
   <h1>DevPath AI</h1>
   <p><strong>A Next-Generation Software Career Navigator & Salary Predictor</strong></p>
+
+  <br />
+  <a href="https://devpath-ai-yerc.onrender.com/" target="_blank">
+    <img src="https://img.shields.io/badge/Live%20Demo-Available-success?style=for-the-badge&logo=render&logoColor=white" alt="Live Demo" />
+  </a>
 </div>
 
 <br />
