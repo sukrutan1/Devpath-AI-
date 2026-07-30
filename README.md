@@ -55,7 +55,7 @@ ML Internship Project/
 ├── readme banner/              # Banner assets for GitHub README
 ├── stitch_devcareer_navigator/ # UI Mockups and wireframes
 ├── train_model.py              # ML model training pipeline
-└── yazilim_kariyer_rehberi_final_1.ipynb  # Data exploration & Jupyter Notebook
+└── devpath.ipynb               # Data exploration & Jupyter Notebook
 ```
 
 ## 🚀 Installation & Setup
