@@ -13,6 +13,7 @@ FIELD_INFO = {
         'skills': ['Node.js', 'Python', 'SQL'],
         'icon': 'dns',
         'roadmap': 'https://roadmap.sh/backend',
+        'average_salary': '$110,000',
     },
     'Frontend': {
         'title': 'Frontend Developer',
@@ -20,6 +21,7 @@ FIELD_INFO = {
         'skills': ['React', 'UI/UX', 'CSS'],
         'icon': 'code',
         'roadmap': 'https://roadmap.sh/frontend',
+        'average_salary': '$105,000',
     },
     'Mobile': {
         'title': 'Mobile Developer',
@@ -27,6 +29,7 @@ FIELD_INFO = {
         'skills': ['React Native', 'Flutter', 'Swift'],
         'icon': 'smartphone',
         'roadmap': 'https://roadmap.sh/android',
+        'average_salary': '$115,000',
     },
     'DevOps/Cloud': {
         'title': 'DevOps / Cloud Engineer',
@@ -34,6 +37,7 @@ FIELD_INFO = {
         'skills': ['Docker', 'Kubernetes', 'AWS'],
         'icon': 'cloud',
         'roadmap': 'https://roadmap.sh/devops',
+        'average_salary': '$130,000',
     },
     'Data Science/AI-ML': {
         'title': 'Data Scientist / ML Engineer',
@@ -41,6 +45,7 @@ FIELD_INFO = {
         'skills': ['Python', 'TensorFlow', 'Statistics'],
         'icon': 'psychology',
         'roadmap': 'https://roadmap.sh/ai-data-scientist',
+        'average_salary': '$125,000',
     },
     'QA/Test': {
         'title': 'QA / Test Engineer',
@@ -48,6 +53,7 @@ FIELD_INFO = {
         'skills': ['Selenium', 'Jest', 'CI/CD'],
         'icon': 'bug_report',
         'roadmap': 'https://roadmap.sh/qa',
+        'average_salary': '$90,000',
     },
     'Cybersecurity': {
         'title': 'Cybersecurity Specialist',
@@ -55,6 +61,7 @@ FIELD_INFO = {
         'skills': ['Pen Testing', 'OWASP', 'Cryptography'],
         'icon': 'shield',
         'roadmap': 'https://roadmap.sh/cyber-security',
+        'average_salary': '$120,000',
     },
     'Game Development': {
         'title': 'Game Developer',
@@ -62,6 +69,7 @@ FIELD_INFO = {
         'skills': ['Unity', 'C#', 'Game Design'],
         'icon': 'sports_esports',
         'roadmap': 'https://roadmap.sh/game-developer',
+        'average_salary': '$95,000',
     },
     'Embedded/IoT': {
         'title': 'Embedded / IoT Engineer',
@@ -69,6 +77,7 @@ FIELD_INFO = {
         'skills': ['C/C++', 'Arduino', 'RTOS'],
         'icon': 'memory',
         'roadmap': 'https://roadmap.sh/computer-science',
+        'average_salary': '$105,000',
     },
 }
 
@@ -263,6 +272,43 @@ def get_quiz_questions() -> list[dict]:
 
 def calculate_recommendation(submission: QuizSubmission) -> QuizResult:
     """Calculate field recommendation from quiz answers."""
+    from server.predict import predict_salary
+    from server.schemas import PredictRequest
+    
+    DEV_TYPE_MAP = {
+        'Backend': 'Developer, back-end',
+        'Frontend': 'Developer, front-end',
+        'Mobile': 'Developer, mobile',
+        'DevOps/Cloud': 'DevOps engineer or professional',
+        'Data Science/AI-ML': 'Data scientist',
+        'QA/Test': 'Developer, QA or test',
+        'Cybersecurity': 'Cybersecurity or InfoSec professional',
+        'Game Development': 'Developer, game or graphics',
+        'Embedded/IoT': 'Developer, embedded applications or devices',
+    }
+    
+    def get_salary_for_field(field_name: str):
+        dev_type = DEV_TYPE_MAP.get(field_name, 'Developer, full-stack')
+        req = PredictRequest(
+            WorkExp=0,
+            DevType=dev_type,
+            Country='Turkey',
+            EdLevel='Bachelor’s degree (B.A., B.S., B.Eng., etc.)',
+            RemoteWork='Hybrid (some in-person, leans heavy to flexibility)',
+            OrgSize='100 to 499 employees',
+            Industry='Software Development',
+            Employment='Employed',
+            Age='18-24 years old',
+            ICorPM='Individual contributor',
+            AISelect='Yes, I use AI tools weekly',
+            DilSayisi=3
+        )
+        try:
+            res = predict_salary(req)
+            return res.monthly_usd, res.monthly_tl
+        except Exception:
+            return 1000.0, 40000.0
+
     scores = {field: 0 for field in FIELDS}
 
     # ── Her alan için teorik maksimum puanı hesapla ──────────
@@ -293,16 +339,23 @@ def calculate_recommendation(submission: QuizSubmission) -> QuizResult:
     alt_field = sorted_fields[1][0]
 
     info = FIELD_INFO[top_field]
+    
+    # Calculate salaries for top field
+    top_usd, top_try = get_salary_for_field(top_field)
 
-    field_results = [
-        FieldResult(
-            name=field,
-            percentage=pct,
-            raw_score=scores[field],
-            max_score=max_scores[field],
+    field_results = []
+    for field, pct in sorted_fields:
+        f_usd, f_try = get_salary_for_field(field)
+        field_results.append(
+            FieldResult(
+                name=field,
+                percentage=pct,
+                raw_score=scores[field],
+                max_score=max_scores[field],
+                avg_monthly_usd=f_usd,
+                avg_monthly_try=f_try,
+            )
         )
-        for field, pct in sorted_fields
-    ]
 
     return QuizResult(
         recommended_field=info['title'],
@@ -313,4 +366,6 @@ def calculate_recommendation(submission: QuizSubmission) -> QuizResult:
         roadmap_link=info['roadmap'],
         alternative_field=FIELD_INFO[alt_field]['title'],
         alternative_percentage=sorted_fields[1][1],
+        avg_monthly_usd=top_usd,
+        avg_monthly_try=top_try,
     )

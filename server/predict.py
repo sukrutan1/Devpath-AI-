@@ -85,7 +85,8 @@ def predict_salary(req: PredictRequest) -> PredictResponse:
     df = pd.DataFrame([row], columns=feature_order)
     prediction = model.predict(df)[0]
 
-    monthly_usd = round(float(prediction), 2)
+    monthly_usd = max(float(prediction), 0.0)
+    monthly_usd = round(monthly_usd, 2)
     monthly_tl = round(monthly_usd * USD_TO_TRY, 2)
     yearly_usd = round(monthly_usd * 12, 2)
 

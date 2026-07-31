@@ -63,6 +63,7 @@ export default function Predict() {
         value={form[field]}
         onChange={handleChange(field)}
         className="font-body text-body-md"
+        required
       >
         <option disabled value="">
           {placeholder}
@@ -116,6 +117,7 @@ export default function Predict() {
                       value={form.WorkExp}
                       onChange={handleChange('WorkExp')}
                       className="font-body text-body-md"
+                      required
                     />
                   </div>
                   {renderSelect('Age', 'Age Range', 'Select Age Range')}
@@ -162,6 +164,7 @@ export default function Predict() {
                       value={form.DilSayisi}
                       onChange={handleChange('DilSayisi')}
                       className="font-body text-body-md"
+                      required
                     />
                   </div>
                 </div>

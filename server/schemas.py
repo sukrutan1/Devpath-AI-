@@ -31,6 +31,8 @@ class FieldResult(BaseModel):
     percentage: float
     raw_score: int
     max_score: int
+    avg_monthly_usd: float
+    avg_monthly_try: float
 
 
 class QuizResult(BaseModel):
@@ -42,3 +44,5 @@ class QuizResult(BaseModel):
     roadmap_link: str
     alternative_field: str
     alternative_percentage: float
+    avg_monthly_usd: float
+    avg_monthly_try: float

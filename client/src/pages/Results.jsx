@@ -17,6 +17,12 @@ const TEXT_COLORS = [
   'text-secondary-fixed-dim font-bold',
 ];
 
+const formatUSD = (n) =>
+  new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(n);
+
+const formatTRY = (n) =>
+  new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY', maximumFractionDigits: 0 }).format(n);
+
 export default function Results() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -38,7 +44,18 @@ export default function Results() {
     );
   }
 
-  const { recommended_field, description, skills, icon, percentages, roadmap_link, alternative_field, alternative_percentage } = result;
+  const {
+    recommended_field,
+    description,
+    skills,
+    icon,
+    percentages,
+    roadmap_link,
+    alternative_field,
+    alternative_percentage,
+    avg_monthly_usd,
+    avg_monthly_try,
+  } = result;
 
   return (
     <main className="flex-grow pt-[120px] pb-xl px-sm md:px-lg max-w-container-max mx-auto w-full relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-md md:gap-lg">
@@ -143,11 +160,26 @@ export default function Results() {
 
       {/* Right Column — Area Analysis Breakdown */}
       <div className="col-span-1 lg:col-span-7 glass-panel rounded-xl p-md md:p-lg flex flex-col fade-in">
-        <div className="flex items-center justify-between mb-lg border-b border-white/10 pb-xs">
-          <h2 className="font-headline text-headline-md text-on-surface flex items-center gap-xs">
+        <div className="flex flex-col mb-lg border-b border-white/10 pb-sm">
+          <h2 className="font-headline text-headline-md text-on-surface flex items-center gap-xs mb-xs">
             <span className="material-symbols-outlined text-tertiary">analytics</span>
             Area Analysis Breakdown
           </h2>
+          {avg_monthly_usd != null && (
+            <div className="flex flex-wrap items-center gap-xs mt-xs">
+              <span className="material-symbols-outlined text-[16px] text-on-surface-variant">payments</span>
+              <span className="font-label text-label-sm text-on-surface-variant">
+                Avg Monthly Salary ({recommended_field}):
+              </span>
+              <span className="font-bold text-primary font-label text-label-sm">
+                {formatUSD(avg_monthly_usd)}
+              </span>
+              <span className="text-on-surface-variant font-label text-label-sm">/</span>
+              <span className="font-bold text-tertiary font-label text-label-sm">
+                {formatTRY(avg_monthly_try)}
+              </span>
+            </div>
+          )}
         </div>
         <div className="flex flex-col gap-sm flex-grow justify-center">
           {percentages.map((field, i) => {
@@ -161,8 +193,16 @@ export default function Results() {
 
             return (
               <div key={field.name} className={`w-full ${isTop ? '' : 'opacity-70'}`}>
-                <div className="flex justify-between font-label text-label-sm mb-base">
-                  <span className="text-on-surface">{field.name}</span>
+                <div className="flex justify-between font-label text-label-sm mb-base items-end">
+                  <div className="flex flex-col">
+                    <span className="text-on-surface">{field.name}</span>
+                    <span className="text-[11px] text-on-surface-variant mt-0.5 flex items-center gap-1">
+                      Avg/mo:
+                      <span className="font-bold text-primary">{formatUSD(field.avg_monthly_usd)}</span>
+                      <span className="text-on-surface-variant/60">·</span>
+                      <span className="font-bold text-tertiary">{formatTRY(field.avg_monthly_try)}</span>
+                    </span>
+                  </div>
                   <span className={textColor}>{field.percentage}%</span>
                 </div>
                 <div className="h-2 w-full bg-surface-container-high rounded-full overflow-hidden">
