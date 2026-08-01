@@ -169,7 +169,7 @@ export default function Results() {
             <div className="flex flex-wrap items-center gap-xs mt-xs">
               <span className="material-symbols-outlined text-[16px] text-on-surface-variant">payments</span>
               <span className="font-label text-label-sm text-on-surface-variant">
-                Avg Monthly Salary ({recommended_field}):
+                Starting Salary/mo ({recommended_field}):
               </span>
               <span className="font-bold text-primary font-label text-label-sm">
                 {formatUSD(avg_monthly_usd)}
@@ -177,6 +177,9 @@ export default function Results() {
               <span className="text-on-surface-variant font-label text-label-sm">/</span>
               <span className="font-bold text-tertiary font-label text-label-sm">
                 {formatTRY(avg_monthly_try)}
+              </span>
+              <span className="ml-1 bg-primary/10 border border-primary/20 text-primary font-label text-[10px] px-1.5 py-0.5 rounded-full">
+                🟢 Entry Level
               </span>
             </div>
           )}
@@ -197,7 +200,7 @@ export default function Results() {
                   <div className="flex flex-col">
                     <span className="text-on-surface">{field.name}</span>
                     <span className="text-[11px] text-on-surface-variant mt-0.5 flex items-center gap-1">
-                      Avg/mo:
+                      Starting salary:
                       <span className="font-bold text-primary">{formatUSD(field.avg_monthly_usd)}</span>
                       <span className="text-on-surface-variant/60">·</span>
                       <span className="font-bold text-tertiary">{formatTRY(field.avg_monthly_try)}</span>

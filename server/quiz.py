@@ -288,9 +288,10 @@ def calculate_recommendation(submission: QuizSubmission) -> QuizResult:
     }
     
     def get_salary_for_field(field_name: str):
+        """Entry-level salary estimate: WorkExp=0, Age 18-24, Bachelor's degree."""
         dev_type = DEV_TYPE_MAP.get(field_name, 'Developer, full-stack')
         req = PredictRequest(
-            WorkExp=0,
+            WorkExp=0,        # Entry level — yeni başlayan
             DevType=dev_type,
             Country='Turkey',
             EdLevel='Bachelor’s degree (B.A., B.S., B.Eng., etc.)',
@@ -298,7 +299,7 @@ def calculate_recommendation(submission: QuizSubmission) -> QuizResult:
             OrgSize='100 to 499 employees',
             Industry='Software Development',
             Employment='Employed',
-            Age='18-24 years old',
+            Age='18-24 years old',  # Yeni mezun yaş aralığı
             ICorPM='Individual contributor',
             AISelect='Yes, I use AI tools weekly',
             DilSayisi=3
